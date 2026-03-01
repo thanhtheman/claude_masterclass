@@ -2,10 +2,25 @@
   "permissions": {
     "allow": [
       "WebSearch",
-      "Bash(git init:*)"
+      "Bash(git init:*)",
+      "Skill(commit-message)"
     ],
     "ask": [
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(git push:*)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"hello world\""
+          }
+        ]
+      }
     ]
   }
 }
