@@ -11,7 +11,7 @@ export default function Home() {
         <h1>
           P<Clock8 className="logo" strokeWidth={2.75} />cket Heist
         </h1>
-        <div>Work hard. Play sneaky.</div>
+        <div>Pull off the perfect heist — before anyone notices.</div>
         <p>
           Welcome to Pocket Heist — the ultimate game of stealthy office pranks
           and sneaky workplace missions. Assign tasks, collect rewards, and

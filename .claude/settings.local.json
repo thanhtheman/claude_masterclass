@@ -9,18 +9,5 @@
       "Bash(rm:*)",
       "Bash(git push:*)"
     ]
-  },
-  "hooks": {
-    "PostToolUse": [
-      {
-        "matcher": "Write|Edit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "echo \"hello world\""
-          }
-        ]
-      }
-    ]
   }
 }
