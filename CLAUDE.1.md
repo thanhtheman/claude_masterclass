@@ -23,11 +23,11 @@ npx vitest tests/components/Navbar.test.tsx  # Run a single test file
 
 **Component convention:** Each component lives in its own directory under `components/` with three files: the component (`Navbar.tsx`), a CSS Module (`Navbar.module.css`), and a barrel export (`index.ts`). Import via `@/components/ComponentName`.
 
-**Styling:** Tailwind CSS v4 via `@import "tailwindcss"` in `globals.css`. Theme tokens (colors, font) are defined with `@theme` in `globals.css` — use `bg-primary`, `text-secondary`, etc. Utility classes `.center-content`, `.page-content`, and `.form-title` are global layout helpers defined there. Note: global custom classes like `.btn` cannot be used with `@apply` inside CSS Modules — inline the underlying Tailwind utilities instead.
+**Styling:** Tailwind CSS v4 via `@import "tailwindcss"` in `globals.css`. Theme tokens (colors, font) are defined with `@theme` in `globals.css` — use `bg-primary`, `text-secondary`, etc. Utility classes `.center-content`, `.page-content`, and `.form-title` are global layout helpers defined there.
 
 **Path alias:** `@/*` resolves to the project root (e.g., `@/components/Navbar`, `@/app/globals.css`). CSS imports inside `app/` can use relative paths (e.g., `./globals.css`).
 
-**Tests:** Test files live in `tests/` mirroring the source structure. Vitest runs in happy-dom with React Testing Library. `vitest/globals` are enabled so `describe`/`it`/`expect` don't need imports (though explicit imports are fine too).
+**Tests:** Test files live in `tests/` mirroring the source structure. Vitest runs in jsdom with React Testing Library. `vitest/globals` are enabled so `describe`/`it`/`expect` don't need imports (though explicit imports are fine too).
 
 ## Aditional Coding Preferences
 - Do not use semicolons for Javascript or Typescript code.
