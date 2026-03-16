@@ -34,3 +34,6 @@ npx vitest tests/components/Navbar.test.tsx  # Run a single test file
 - Do not apply tailwind classes diretly in component templates unless essential or just 1 at most. If an element needs more than 1 single tailwind class, combine them into a custo class using the `@apply` directive.
 - Use minimal project dependencies where possible.
 - Use the `git switch -c` command to switch to new branches, not `git checkout`.
+
+## Checking Documentation
+- **important:** when implementing any lib/framework-specific features, ALWAYS check the appropriate lib/framework documentation using the Context7 MCP server before writing any code.

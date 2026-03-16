@@ -3,11 +3,16 @@
     "allow": [
       "WebSearch",
       "Bash(git init:*)",
-      "Skill(commit-message)"
+      "Skill(commit-message)",
+      "mcp__context7__query-docs"
     ],
     "ask": [
       "Bash(rm:*)",
       "Bash(git push:*)"
     ]
-  }
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "context7"
+  ]
 }
