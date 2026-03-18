@@ -1,0 +1,33 @@
+@reference "../../app/globals.css";
+
+.form {
+  @apply flex flex-col gap-4 mt-6 mx-auto max-w-sm;
+}
+
+.field {
+  @apply flex flex-col gap-1;
+}
+
+.label {
+  @apply text-heading text-sm font-medium;
+}
+
+.input {
+  @apply w-full px-3 py-2 rounded-lg bg-lighter text-heading border border-body/20 outline-none focus:border-primary;
+}
+
+.textarea {
+  @apply w-full px-3 py-2 rounded-lg bg-lighter text-heading border border-body/20 outline-none focus:border-primary resize-none;
+}
+
+.select {
+  @apply w-full px-3 py-2 rounded-lg bg-lighter text-heading border border-body/20 outline-none focus:border-primary cursor-pointer;
+}
+
+.error {
+  @apply text-error text-sm;
+}
+
+.submitBtn {
+  @apply bg-primary text-dark font-semibold px-4 py-2 rounded-lg hover:bg-secondary transition-colors w-full mt-2 disabled:opacity-50 disabled:cursor-not-allowed;
+}
