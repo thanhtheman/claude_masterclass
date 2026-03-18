@@ -20,9 +20,9 @@ export interface CreateHeistInput {
   createdByCodename: string
   assignedTo: string
   assignedToCodename: string
-  deadline: Date
+  deadline: Date // automatically 48 hours from createdAt
   finalStatus: null
-  createdAt: FieldValue
+  createdAt: FieldValue //serverTimestamp()
 }
 
 export interface UpdateHeistInput {
