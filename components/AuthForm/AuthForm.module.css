@@ -32,6 +32,10 @@
   @apply text-error text-sm;
 }
 
+.success {
+  @apply text-success text-sm;
+}
+
 .submitBtn {
   @apply bg-primary text-dark font-semibold px-4 py-2 rounded-lg hover:bg-secondary transition-colors w-full mt-2;
 }

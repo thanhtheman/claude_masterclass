@@ -8,19 +8,22 @@ import styles from "./AuthForm.module.css"
 interface AuthFormProps {
   mode: "login" | "signup"
   onSubmit?: (email: string, password: string) => Promise<void>
+  successMessage?: string
 }
 
-export default function AuthForm({ mode, onSubmit }: AuthFormProps) {
+export default function AuthForm({ mode, onSubmit, successMessage }: AuthFormProps) {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState("")
+  const [success, setSuccess] = useState("")
 
   const isLogin = mode === "login"
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError("")
+    setSuccess("")
 
     if (!email.trim() || !password.trim()) {
       setError("Please fill in all fields")
@@ -32,6 +35,7 @@ export default function AuthForm({ mode, onSubmit }: AuthFormProps) {
         await onSubmit(email, password)
         setEmail("")
         setPassword("")
+        if (successMessage) setSuccess(successMessage)
       } catch (err) {
         setError(err instanceof Error ? err.message : "Something went wrong. Please try again.")
       }
@@ -84,6 +88,7 @@ export default function AuthForm({ mode, onSubmit }: AuthFormProps) {
           </div>
 
           {error && <p className={styles.error}>{error}</p>}
+          {success && <p className={styles.success}>{success}</p>}
 
           <button type="submit" className={styles.submitBtn}>
             {isLogin ? "Log In" : "Sign Up"}
