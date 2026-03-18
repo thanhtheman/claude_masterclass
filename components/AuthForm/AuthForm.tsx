@@ -7,9 +7,10 @@ import styles from "./AuthForm.module.css"
 
 interface AuthFormProps {
   mode: "login" | "signup"
+  onSubmit?: (email: string, password: string) => Promise<void>
 }
 
-export default function AuthForm({ mode }: AuthFormProps) {
+export default function AuthForm({ mode, onSubmit }: AuthFormProps) {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
@@ -17,7 +18,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
 
   const isLogin = mode === "login"
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError("")
 
@@ -26,9 +27,19 @@ export default function AuthForm({ mode }: AuthFormProps) {
       return
     }
 
-    console.log({ email, password })
-    setEmail("")
-    setPassword("")
+    if (onSubmit) {
+      try {
+        await onSubmit(email, password)
+        setEmail("")
+        setPassword("")
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Something went wrong. Please try again.")
+      }
+    } else {
+      console.log({ email, password })
+      setEmail("")
+      setPassword("")
+    }
   }
 
   return (
