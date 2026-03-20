@@ -22,6 +22,8 @@ export function useHeists(mode: HeistMode): UseHeistsResult {
   useEffect(() => {
     if (userLoading) return
 
+    setLoading(true)
+
     if (!uid) {
       setLoading(false)
       return
@@ -40,7 +42,7 @@ export function useHeists(mode: HeistMode): UseHeistsResult {
     return onSnapshot(
       q,
       (snapshot) => {
-        setHeists(snapshot.docs.map((doc) => doc.data() as Heist))
+        setHeists(snapshot.docs.map((doc) => doc.data()))
         setLoading(false)
       },
       (err) => {

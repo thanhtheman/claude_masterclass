@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import { useHeists } from '@/hooks/useHeists'
 import { HeistCard, HeistCardSkeleton } from '@/components/HeistCard'
@@ -6,7 +6,7 @@ import { HeistCard, HeistCardSkeleton } from '@/components/HeistCard'
 export default function HeistsPage() {
   const { heists: activeHeists, loading: activeLoading } = useHeists('active')
   const { heists: assignedHeists, loading: assignedLoading } = useHeists('assigned')
-  const { heists: expiredHeists } = useHeists('expired')
+  const { heists: expiredHeists, loading: expiredLoading } = useHeists('expired')
 
   return (
     <div className="page-content">
@@ -14,7 +14,7 @@ export default function HeistsPage() {
         <h2>Your Active Heists</h2>
         <div className="preview-grid">
           {activeLoading
-            ? Array.from({ length: 3 }).map((_, i) => <HeistCardSkeleton key={i} />)
+            ? Array.from({ length: 3 }).map((_, i) => <HeistCardSkeleton key={`skeleton-active-${i}`} />)
             : activeHeists.length > 0
               ? activeHeists.map((h) => <HeistCard key={h.id} heist={h} status="active" />)
               : <p>No active heists.</p>
@@ -26,7 +26,7 @@ export default function HeistsPage() {
         <h2>Heists You&apos;ve Assigned</h2>
         <div className="preview-grid">
           {assignedLoading
-            ? Array.from({ length: 3 }).map((_, i) => <HeistCardSkeleton key={i} />)
+            ? Array.from({ length: 3 }).map((_, i) => <HeistCardSkeleton key={`skeleton-assigned-${i}`} />)
             : assignedHeists.length > 0
               ? assignedHeists.map((h) => <HeistCard key={h.id} heist={h} status="assigned" />)
               : <p>No assigned heists.</p>
@@ -36,11 +36,16 @@ export default function HeistsPage() {
 
       <div className="expired-heists">
         <h2>All Expired Heists</h2>
-        {expiredHeists.length > 0 && (
-          <ul>
-            {expiredHeists.map((h) => <li key={h.id}>{h.title}</li>)}
-          </ul>
-        )}
+        {expiredLoading
+          ? null
+          : expiredHeists.length > 0
+            ? (
+              <ul>
+                {expiredHeists.map((h) => <li key={h.id}>{h.title}</li>)}
+              </ul>
+            )
+            : <p>No expired heists.</p>
+        }
       </div>
     </div>
   )
