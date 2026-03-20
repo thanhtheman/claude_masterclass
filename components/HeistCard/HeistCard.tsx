@@ -1,6 +1,10 @@
+'use client'
+
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Clock, User, Calendar } from 'lucide-react'
 import type { Heist } from '@/types/firestore'
+import { getTimeRemaining } from '@/lib/countdown'
 import styles from './HeistCard.module.css'
 
 interface HeistCardProps {
@@ -9,11 +13,20 @@ interface HeistCardProps {
 }
 
 export function HeistCard({ heist, status }: HeistCardProps) {
-  const deadline = heist.deadline.toLocaleDateString('en-US', {
+  const deadlineLabel = heist.deadline.toLocaleDateString('en-US', {
     month: 'short',
     day: 'numeric',
     year: 'numeric',
   })
+
+  const [timeRemaining, setTimeRemaining] = useState(() => getTimeRemaining(heist.deadline))
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimeRemaining(getTimeRemaining(heist.deadline))
+    }, 60000)
+    return () => clearInterval(interval)
+  }, [heist.deadline])
 
   return (
     <div className={styles.card}>
@@ -40,7 +53,10 @@ export function HeistCard({ heist, status }: HeistCardProps) {
       </div>
       <div className={styles.metaRow}>
         <Calendar size={12} className={styles.metaIcon} />
-        <span className={styles.deadline}>{deadline}</span>
+        <span className={styles.deadlineLabel}>{deadlineLabel} •</span>
+        <span className={timeRemaining === 'Overdue' ? styles.deadlineOverdue : styles.deadline}>
+          {timeRemaining}
+        </span>
       </div>
     </div>
   )

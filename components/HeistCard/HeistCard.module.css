@@ -95,8 +95,22 @@
   letter-spacing: -0.15px;
 }
 
+.deadlineLabel {
+  @apply text-body;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: -0.15px;
+}
+
 .deadline {
   @apply text-primary;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: -0.15px;
+}
+
+.deadlineOverdue {
+  @apply text-body;
   font-size: 14px;
   line-height: 20px;
   letter-spacing: -0.15px;
