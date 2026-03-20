@@ -30,18 +30,35 @@ describe('useHeists', () => {
     })
   })
 
-  it('returns [] and does not subscribe when user is null', () => {
+  it('returns empty heists and does not subscribe when user is null', () => {
     mockUseUser.mockReturnValue({ user: null, loading: false })
     const { result } = renderHook(() => useHeists('active'))
-    expect(result.current).toEqual([])
+    expect(result.current.heists).toEqual([])
     expect(mockOnSnapshot).not.toHaveBeenCalled()
   })
 
-  it('returns [] and does not subscribe while loading', () => {
+  it('sets loading to false immediately when user is null', () => {
+    mockUseUser.mockReturnValue({ user: null, loading: false })
+    const { result } = renderHook(() => useHeists('active'))
+    expect(result.current.loading).toBe(false)
+  })
+
+  it('returns empty heists and does not subscribe while user is loading', () => {
     mockUseUser.mockReturnValue({ user: { uid: 'user-1' }, loading: true })
     const { result } = renderHook(() => useHeists('active'))
-    expect(result.current).toEqual([])
+    expect(result.current.heists).toEqual([])
     expect(mockOnSnapshot).not.toHaveBeenCalled()
+  })
+
+  it('loading starts true before snapshot fires', () => {
+    mockOnSnapshot.mockImplementation(() => mockUnsubscribe)
+    const { result } = renderHook(() => useHeists('active'))
+    expect(result.current.loading).toBe(true)
+  })
+
+  it('loading becomes false after snapshot fires', async () => {
+    const { result } = renderHook(() => useHeists('active'))
+    await waitFor(() => expect(result.current.loading).toBe(false))
   })
 
   it("uses correct where clauses for 'active' mode", () => {
@@ -80,8 +97,8 @@ describe('useHeists', () => {
       return mockUnsubscribe
     })
     const { result } = renderHook(() => useHeists('active'))
-    await waitFor(() => expect(result.current).toHaveLength(1))
-    expect(result.current[0].title).toBe('Stapler Snatch')
+    await waitFor(() => expect(result.current.heists).toHaveLength(1))
+    expect(result.current.heists[0].title).toBe('Stapler Snatch')
   })
 
   it('calls the onSnapshot unsubscribe function on unmount', () => {

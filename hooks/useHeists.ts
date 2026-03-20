@@ -8,13 +8,24 @@ import { COLLECTIONS, Heist, heistConverter } from '@/types/firestore'
 
 type HeistMode = 'active' | 'assigned' | 'expired'
 
-export function useHeists(mode: HeistMode): Heist[] {
-  const { user, loading } = useUser()
+interface UseHeistsResult {
+  heists: Heist[]
+  loading: boolean
+}
+
+export function useHeists(mode: HeistMode): UseHeistsResult {
+  const { user, loading: userLoading } = useUser()
   const uid = user?.uid
   const [heists, setHeists] = useState<Heist[]>([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    if (loading || !uid) return
+    if (userLoading) return
+
+    if (!uid) {
+      setLoading(false)
+      return
+    }
 
     const ref = collection(db, COLLECTIONS.HEISTS).withConverter(heistConverter)
     const now = new Date()
@@ -28,10 +39,17 @@ export function useHeists(mode: HeistMode): Heist[] {
 
     return onSnapshot(
       q,
-      (snapshot) => { setHeists(snapshot.docs.map((doc) => doc.data() as Heist)) },
-      (err) => { console.error('[useHeists] Firestore error:', err); setHeists([]) }
+      (snapshot) => {
+        setHeists(snapshot.docs.map((doc) => doc.data() as Heist))
+        setLoading(false)
+      },
+      (err) => {
+        console.error('[useHeists] Firestore error:', err)
+        setHeists([])
+        setLoading(false)
+      }
     )
-  }, [uid, loading, mode])
+  }, [uid, userLoading, mode])
 
-  return heists
+  return { heists, loading }
 }
